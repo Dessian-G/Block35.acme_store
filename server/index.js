@@ -25,7 +25,7 @@ app.get('/api/users', async(req, res, next)=> {
 // GET /api/products - returns an array of products
 app.get('/api/products', async(req, res, next)=> {
     try {
-      res.send(fetchProducts());
+      res.send(await fetchProducts());
     }
     catch(ex){
       next(ex);
@@ -72,7 +72,7 @@ app.delete('/api/users/:user_id/favorites/:id', async(req, res, next)=> {
     await createTables();
     console.log('tables created');
   
-    const [max, nath, ethyl, mark, foo, bary, ships, crac, fipy] = await Promise.all([
+    const [max, nath, ethyl, mark, fotu, bary, ships, crac, fipy] = await Promise.all([
       createUser({ username: 'moe', password: 'm_pw'}),
       createUser({ username: 'nath', password: 'l_pw'}),
       createUser({ username: 'ethyl', password: 'e_pw'}),
@@ -92,8 +92,7 @@ app.delete('/api/users/:user_id/favorites/:id', async(req, res, next)=> {
     app.listen(port, ()=> console.log(`listening on port ${port}`));
     console.log('data seeded');
 
-  //const port = process.env.PORT || 3000;
-  app.listen(port, ()=> console.log(`listening on port ${port}`));
+  //const port = process.env.PORT || 3000;;
   }
 
   

@@ -20,11 +20,10 @@ const bcrypt = require('bcrypt');
         name VARCHAR(100) NOT NULL UNIQUE
       );
       CREATE TABLE favorites(
-        CREATE TABLE favorites(
-            id UUID PRIMARY KEY,
-            user_id UUID REFERENCES users(id) NOT NULL,
-            product_id UUID REFERENCES products(id) NOT NULL,
-            CONSTRAINT unique_user_id_and_product_id UNIQUE (user_id, product_id)
+        id UUID PRIMARY KEY,
+        user_id UUID REFERENCES users(id) NOT NULL,
+        product_id UUID REFERENCES products(id) NOT NULL,
+        CONSTRAINT unique_user_id_and_product_id UNIQUE (user_id, product_id)
         
       );
     `;
@@ -34,7 +33,7 @@ const bcrypt = require('bcrypt');
 // createProduct - creates a product in the database and returns the created record
 const createProduct = async({ name })=> {
     const SQL = `
-      INSERT INTO product(id, name) VALUES($1, $2) RETURNING *
+      INSERT INTO products(id, name) VALUES($1, $2) RETURNING *
     `;
     const response = await client.query(SQL, [uuid.v4(), name]);
     return response.rows[0];
