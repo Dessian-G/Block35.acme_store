@@ -2,7 +2,7 @@ const{
     client,
     createTables,
     createFavorite,
-    createProducts,
+    createProduct,
     createUser,
     fetchFavorites,
     fetchUsers,
@@ -59,3 +59,42 @@ app.delete('/api/users/:user_id/favorites/:id', async(req, res, next)=> {
       next(ex);
     }
   });
+  app.use((err, req, res, next)=> {
+    console.log(err);
+    res.status(err.status || 500).send({ error: err.message ? err.message : err });
+  });
+  
+  const init = async()=> {
+    const port = process.env.PORT || 3000;
+    await client.connect();
+    console.log('connected to database');
+  
+    await createTables();
+    console.log('tables created');
+  
+    const [max, nath, ethyl, mark, foo, bary, ships, crac, fipy] = await Promise.all([
+      createUser({ username: 'moe', password: 'm_pw'}),
+      createUser({ username: 'nath', password: 'l_pw'}),
+      createUser({ username: 'ethyl', password: 'e_pw'}),
+      createUser({ username: 'mark', password: 'c_pw'}),
+      createProduct({ name: 'fotu' }),
+      createProduct({ name: 'bary' }),
+      createProduct({ name: 'ships' }),
+      createProduct({ name: 'crac' }),
+      createProduct({ name: 'fipy' })
+    ]);
+  
+    console.log(await fetchUsers());
+    console.log(await fetchProducts());
+  
+    console.log(await fetchFavorites(max.id));
+    const favorite = await createFavorite({ user_id: max.id, product_id: fotu.id });
+    app.listen(port, ()=> console.log(`listening on port ${port}`));
+    console.log('data seeded');
+
+  //const port = process.env.PORT || 3000;
+  app.listen(port, ()=> console.log(`listening on port ${port}`));
+  }
+
+  
+  init();
